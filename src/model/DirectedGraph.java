@@ -1,6 +1,7 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -61,7 +62,7 @@ public class DirectedGraph<T extends Comparable<T>> {
 		}
 		return inDegree;
 	}
-
+	
 	/*
 	 * public Map<T, T> dijkstra(T start) {
 	 * 
@@ -81,6 +82,7 @@ public class DirectedGraph<T extends Comparable<T>> {
 	public List<T> findPath(T start, T end) {
 		var path = new ArrayList<T>();
 		var queue = new LinkedList<T>();
+		var visited = new HashSet<T>();
 
 		queue.add(start);
 		while (!queue.isEmpty()) {
