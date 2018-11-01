@@ -1,12 +1,18 @@
 import json
+import sys
 	
 def main():
-	_json = makeDict()
-	makeJsonFile(_json)
+	if len(sys.argv) == 3:
+		path = sys.argv[1]
+		filename = sys.argv[2]
+		_json = makeDict(sys.argv[1])
+		makeJsonFile(_json)
+	else:
+		print("Did not provide necessary arguments 'infile.txt' and 'outfile.json'") 
 	return
 	
-def makeDict():
-	with open("WikipediaLinks.txt", "r", errors="replace") as infile:
+def makeDict(filepath):
+	with open(filepath, "r", errors="replace") as infile:
 		_json = {}
 		lines = infile.readlines()
 		for currentLine in lines:
@@ -18,9 +24,9 @@ def makeDict():
 	print('Read Complete')
 	return _json
 		
-def makeJsonFile(jsonDict):		
+def makeJsonFile(jsonDict, jsonOutFile):		
 	with open("WikipediaLinks.json", "w", errors="replace") as outfile:
-		json.dump(jsonDict, outfile)
+		json.dump(jsonOutFile, outfile)
 	outfile.close()
 	return
 		
