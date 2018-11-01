@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.Scanner;
 
 import model.DirectedGraph;
@@ -27,10 +28,8 @@ public class App {
 			var line = scan.nextLine().split(" ");
 			
 			var node = line[0];
-			
-			for (var index = 1; index < line.length; index++) {
-				graph.addEdge(node, line[index]);
-			}
+			var allExceptFirst = Arrays.copyOfRange(line, 1, line.length);
+			graph.addNode(node, Arrays.asList(allExceptFirst));
 		}
 		scan.close();
 		return graph;
