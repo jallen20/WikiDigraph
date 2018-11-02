@@ -1,6 +1,7 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -70,6 +71,9 @@ public class DirectedGraph<T extends Comparable<T>> {
 		return inDegree;
 	}
 	
+	public boolean containsKey(T node) {
+		return this.edges.containsKey(node);
+	}
 
 	public List<T> findPath(T start, T end) {
 		var path = new ArrayList<T>();
@@ -83,6 +87,10 @@ public class DirectedGraph<T extends Comparable<T>> {
 			} else {
 				for(var currentNeighbor : this.getNeighbors(current)) {
 					if (!path.contains(currentNeighbor)) {
+						if (currentNeighbor.equals(end)) {
+							path.add(currentNeighbor);
+							return path;
+						}
 						queue.add(currentNeighbor);
 					}
 				}
@@ -91,6 +99,19 @@ public class DirectedGraph<T extends Comparable<T>> {
 		throw new IllegalStateException("Path Not found");
 	}
 
+	public Map<T, Integer> getTop100() {
+		var top100 = new HashMap<T, Integer>();
+		var max = -1;
+		T maxNode = null;
+		for (var current : this.edges.keySet()) {
+			if (this.getInDegree(current) > max) {
+				maxNode = current;
+				max = this.getInDegree(current);
+			}
+		}
+		top100.put(maxNode, max);
+		return top100;
+	}
 	private T getShortestDistance(Set<T> unchecked, Map<T, Double> dist) {
 		T shortest = null;
 		if (unchecked.size() != 0) {

@@ -3,12 +3,12 @@ import sys
 	
 def main():
 	if len(sys.argv) == 3:
-		path = sys.argv[1]
+		infilename = sys.argv[1]
 		outfilename = sys.argv[2]
-		_json = makeDict(path)
+		_json = makeDict(infilename)
 		makeJsonFile(_json, outfilename)
 	else:
-		print("Did not provide necessary arguments 'infile.txt' and 'outfile.json'") 
+		print("Did not provide necessary arguments 'infilename'.txt and 'outfilename'.json") 
 	return
 	
 def makeDict(filepath):
@@ -17,9 +17,14 @@ def makeDict(filepath):
 		lines = infile.readlines()
 		for currentLine in lines:
 			currentLine = currentLine.replace('\n', '')
-			thisLine = currentLine.split(":") if ":" in currentLine else currentLine.split(" ")
-			key = thisLine[0]
-			_json[key] = thisLine[1:]
+			if ":" in currentLine:
+				thisLine = currentLine.split(":")
+				key = thisLine[1]
+				_json[key] = thisLine[0]
+			else:
+				thisLine = currentLine.split(" ")
+				key = thisLine[0]
+				_json[key] = thisLine[1:]
 	infile.close()
 	print('Read Complete')
 	return _json

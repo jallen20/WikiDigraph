@@ -1,4 +1,5 @@
 /controller/
-/model/
-/view/
 /io/
+/model/
+/module-info.class
+/view/
