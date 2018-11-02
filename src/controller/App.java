@@ -7,9 +7,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
+import java.util.TreeMap;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -20,18 +24,24 @@ import view.WikipediaTUI;
 
 public class App {
 
+
 	public static void main(String[] args) throws IOException {
 		// var tui = new WikipediaTUI("WikipediaLinks.txt");
 		//var graph = yes();
 		var parser = new JSONParser();
-		JSONObject json = null;
+		Map<String, String[]> json = null;
 		try {
-			json = (JSONObject) parser.parse(new FileReader("WikipediaLinks.txt"));
-		} catch (ParseException e) {
+			json = (JSONObject) parser.parse(new FileReader("WikipediaLinks.json"));
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println(e.getMessage());
 		}
-		//System.out.println(graph.findPath("12", "802"));
+		var me = new TreeMap<String, Object>(json);
+		var y = me.get("25245886");
+		System.out.println(y.toString());
+		var graph = new DirectedGraph(me);
+		System.out.println(graph.getInDegree("25245886"));
+		System.out.println(graph.size());
 	}
 	
 	private static String print(List<String> Node) {

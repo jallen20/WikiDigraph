@@ -16,12 +16,20 @@ public class DirectedGraph<T extends Comparable<T>> {
 	public DirectedGraph() {
 		this.edges = new TreeMap<T, List<T>>();
 	}
+	
+	public DirectedGraph(Map<T, List<T>> edges) {
+		this.edges = edges;
+		
+	}
 
 	public void addNode(T node) {
 		if (edges.containsKey(node)) {
 			throw new IllegalArgumentException("Can not add duplicate node to graph");
 		}
 		edges.put(node, new ArrayList<T>());
+	}
+	public int size() {
+		return this.edges.keySet().size();
 	}
 	
 	public void addNode(T node, List<T> neighbors) {
@@ -63,27 +71,10 @@ public class DirectedGraph<T extends Comparable<T>> {
 		return inDegree;
 	}
 	
-	/*
-	 * public Map<T, T> dijkstra(T start) {
-	 * 
-	 * var dist = new TreeMap<T, Double>(); var prev = new TreeMap<T, T>(); var
-	 * unchecked = new TreeSet<T>(super.nodeSet());
-	 * 
-	 * dist.put(start, 0.0); for (var current : this.nodeSet()) { if
-	 * (!current.equals(start)) { dist.put(current, Double.POSITIVE_INFINITY); } }
-	 * 
-	 * while (!unchecked.isEmpty()) { var u = getShortestDistance(unchecked, dist);
-	 * unchecked.remove(u); for (var v : getNeighbors(u)) { if
-	 * (unchecked.contains(v)) { var distance = dist.get(u) + getWeight(u, v); if
-	 * (distance < dist.get(v)) { dist.replace(v, distance); if
-	 * (prev.containsKey(v)) { prev.replace(v, u); } else { prev.put(v, u); } } } }
-	 * } return prev; }
-	 */
+
 	public List<T> findPath(T start, T end) {
 		var path = new ArrayList<T>();
 		var queue = new LinkedList<T>();
-		var visited = new HashSet<T>();
-
 		queue.add(start);
 		while (!queue.isEmpty()) {
 			var current = queue.remove();
@@ -91,7 +82,11 @@ public class DirectedGraph<T extends Comparable<T>> {
 			if (current.equals(end)) {
 				return path;
 			} else {
-				queue.addAll(this.getNeighbors(current));
+				for(var currentNeighbor : this.getNeighbors(current)) {
+					if (!path.contains(currentNeighbor)) {
+						queue.add(currentNeighbor);
+					}
+				}
 			}
 		}
 		throw new IllegalStateException("Path Not found");
