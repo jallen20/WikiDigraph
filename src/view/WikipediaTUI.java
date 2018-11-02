@@ -6,21 +6,19 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Scanner;
 
-
-
+import io.DigraphBuilder;
 import model.DirectedGraph;
 
 
 public class WikipediaTUI {
 	
-	private DirectedGraph<String> graph;
+	private DirectedGraph graph;
 	private Scanner input;
-	private File source;
 	
 	public WikipediaTUI(String filename) {
-		//this.graph = new DirectedGraph<String>();
-		//this.input = new Scanner(System.in);
-		//this.source = new File(filename);
+		this.graph = DigraphBuilder.build(filename);
+		this.input = new Scanner(System.in);
+		
 	}
 	
 	public void start() {

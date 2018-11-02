@@ -8,7 +8,7 @@ import org.json.simple.parser.JSONParser;
 
 import model.DirectedGraph;
 
-public class DigraphGraphBuilder {
+public class DigraphBuilder {
 	
 	@SuppressWarnings("rawtypes")
 	public static DirectedGraph build(String fileName) {
