@@ -18,8 +18,7 @@ public class DirectedGraph<T extends Comparable<T>> {
 	}
 	
 	public DirectedGraph(Map<T, List<T>> edges) {
-		this.edges = edges;
-		
+		this.edges = edges;	
 	}
 
 	public void addNode(T node) {
