@@ -17,9 +17,9 @@ public class DirectedGraph<T extends Comparable<T>> {
 	public DirectedGraph() {
 		this.edges = new TreeMap<T, List<T>>();
 	}
-	
+
 	public DirectedGraph(Map<T, List<T>> edges) {
-		this.edges = edges;	
+		this.edges = edges;
 	}
 
 	public void addNode(T node) {
@@ -28,10 +28,11 @@ public class DirectedGraph<T extends Comparable<T>> {
 		}
 		edges.put(node, new ArrayList<T>());
 	}
+
 	public int size() {
 		return this.edges.keySet().size();
 	}
-	
+
 	public void addNode(T node, List<T> neighbors) {
 		if (this.edges.containsKey(node)) {
 			return;
@@ -52,7 +53,7 @@ public class DirectedGraph<T extends Comparable<T>> {
 		}
 		this.edges.get(node1).add(node2);
 	}
-	
+
 	public List<T> getNeighbors(T node) {
 		return this.edges.get(node);
 	}
@@ -63,14 +64,15 @@ public class DirectedGraph<T extends Comparable<T>> {
 
 	public int getInDegree(T node) {
 		var inDegree = 0;
-		for (var src : this.edges.values()) {
-			if (src.contains(node)) {
+		for (var current : this.edges.keySet()) {
+			var neighbor = this.edges.get(current);
+			if (neighbor.contains(node)) {
 				inDegree++;
 			}
 		}
 		return inDegree;
 	}
-	
+
 	public boolean containsKey(T node) {
 		return this.edges.containsKey(node);
 	}
@@ -85,7 +87,7 @@ public class DirectedGraph<T extends Comparable<T>> {
 			if (current.equals(end)) {
 				return path;
 			} else {
-				for(var currentNeighbor : this.getNeighbors(current)) {
+				for (var currentNeighbor : this.getNeighbors(current)) {
 					if (!path.contains(currentNeighbor)) {
 						if (currentNeighbor.equals(end)) {
 							path.add(currentNeighbor);
@@ -112,17 +114,9 @@ public class DirectedGraph<T extends Comparable<T>> {
 		top100.put(maxNode, max);
 		return top100;
 	}
-	private T getShortestDistance(Set<T> unchecked, Map<T, Double> dist) {
-		T shortest = null;
-		if (unchecked.size() != 0) {
-			for (var current : unchecked) {
-				if (shortest == null) {
-					shortest = current;
-				} else if (dist.get(current) < dist.get(shortest))
-					shortest = current;
-			}
-		}
-		return shortest;
+
+	public Map<T, List<T>> getEdges() {
+		return this.edges;
 	}
 
 }
